@@ -1,0 +1,34 @@
+﻿<Window x:Class="MatlabSimple.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MatlabSimple"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="576" Width="798">
+    <Border BorderThickness="5" Background="LightBlue">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="15"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="15"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btnStartMatlab" Content="Start Matlab" Grid.Row="1" Grid.Column="1" Height="50" Width="100" Click="btnStartMatlab_Click"/>
+            <Button x:Name="btnCalcData" Content="Calculate" Grid.Row="1" Grid.Column="2" Height="50" Width="100" IsEnabled="False" Margin="50,0" VerticalAlignment="Top" Click="btnCalcData_Click"/>
+            <TextBlock x:Name="txtOutput" Grid.Row="3" HorizontalAlignment="Center" Grid.ColumnSpan="4"/>
+            <Label Grid.Row="4" Grid.ColumnSpan="4" Background="LightCyan" HorizontalContentAlignment="Center">Plot</Label>
+            <Border Grid.Row="5" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="1">
+                <Canvas x:Name="cvPlot" Background="White" SizeChanged="cvPlot_SizeChanged"/>
+            </Border>
+        </Grid>
+    </Border>
+</Window>
