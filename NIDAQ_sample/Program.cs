@@ -1,87 +1,70 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
-using DAQmx = NationalInstruments.DAQmx;
 
 namespace NIDAQ_sample
 {
     class Program
     {
-        private DAQmx::Task myTask;
-        private string channelName = "Dev2/ao1";
-        private bool started = false;
-        int frequency = 60;
-
         static void Main(string[] args)
         {
+            string channelName = "Dev2/ao1";
+            int frequency = 80;
+
+            //TryNI(channelName, frequency);
+            TryLib(channelName, frequency);
+        }
+
+        public static void TryNI(string channelName, int frequency)
+        {
             Console.WriteLine("Starting generate a signal");
-            Program p = new Program();
-            p.StartThread();
+            NIDAQ daqDevice = new NIDAQ(channelName, frequency);
+            daqDevice.StartThread();
             Console.WriteLine("Press any key to stop");
             ConsoleKeyInfo key = Console.ReadKey();
-            p.started = false;
+            daqDevice.Started = false;
             Console.WriteLine("{0} key have been pressed", key.KeyChar);
-            p.StopSignal();
+            daqDevice.StopSignal();
         }
 
-        public void CreateSignal()
+        public static void TryInterop(string channelName, int frequency)
         {
-            try
-            {
-                myTask = new DAQmx.Task();
-                myTask.AOChannels.CreateVoltageChannel(channelName, "", -10, 10, DAQmx.AOVoltageUnits.Volts);
-                myTask.Control(DAQmx.TaskAction.Verify);
-                DAQmx.AnalogSingleChannelWriter writer = new DAQmx.AnalogSingleChannelWriter(myTask.Stream);
-                //writer.WriteMultiSample(true, GetSineWave());
-                myTask.Start();
-                while (started)
-                {
-                    writer.WriteMultiSample(true, GetSineWave());
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                myTask.Dispose();
-            }
-            finally
-            { }
+            
+            Console.WriteLine("Starting generate a signal");
+            Interop_sample daqDevice = new Interop_sample { DeviceChannel = channelName};
+            //daqDevice.DeviceChannel = channelName;
+            string errorMessage = string.Empty;
+            
+            Interop_sample.CreateChannel(daqDevice.DeviceChannel, out errorMessage, -10, 10);
+            if (Interop_sample.hasError(errorMessage)) return;
+            
+            Interop_sample.StartTask(out errorMessage);
+            if (Interop_sample.hasError(errorMessage)) return;
+
+            double[] values = Interop_sample.GetSineWave(frequency);
+            daqDevice.WriteLoop(values);
+
+            Console.WriteLine("Press any key to stop");
+            ConsoleKeyInfo key = Console.ReadKey();
+            daqDevice.StopLoop();
+            Console.WriteLine("{0} key have been pressed", key.KeyChar);
         }
 
-        public void StartThread()
+        public static void TryLib(string channelName, int frequency)
         {
-            started = true;
-            Thread mythread = new Thread(CreateSignal);
-            mythread.Start();
-        }
+            Console.WriteLine("Starting generate a signal");
+            DAQDevice daqDevice = new DAQDevice { DeviceChannel = channelName };
+            string errorMessage = string.Empty;
 
-        public double[] GetSineWave()
-        {
-            int amplitude = 9;
-            int len = 1000;
-            double step = 2 * Math.PI / len;
-            double[] res = new double[len];
-            for (int i = 0; i < len; i++)
-            {
-                res[i] = amplitude * Math.Sin(step * i * frequency);
-            }
-            return res;
-        }
+            daqDevice.CreateChannel(out errorMessage);
+            if (DAQDevice.hasError(errorMessage)) return;
+            daqDevice.StartTask(out errorMessage);
+            if (DAQDevice.hasError(errorMessage)) return;
 
-        public void StopSignal()
-        {
-            try
-            {
-                myTask.Stop();
-                myTask.Dispose();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
+            double[] values = DAQDevice.GetSineWave(frequency);
+            daqDevice.WriteLoop(values);
+            Console.WriteLine("Press any key to stop");
+            ConsoleKeyInfo key = Console.ReadKey();
+            daqDevice.StopLoop();
+            Console.WriteLine("{0} key have been pressed", key.KeyChar);
         }
     }
 }

@@ -49,11 +49,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAQDevice.cs" />
+    <Compile Include="Interop_sample.cs" />
+    <Compile Include="NIDAQ.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NIDAQDevice\NIDAQDevice.csproj">
+      <Project>{ebbef714-532b-4f22-b694-ad21eebcd262}</Project>
+      <Name>NIDAQDevice</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
