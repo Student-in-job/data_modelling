@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using MathWorks.MATLAB.Engine;
@@ -15,8 +13,10 @@ public class MatlabEngine : MonoBehaviour
     bool dataRetrieved = false;
     public GameObject pointPrefab;
     public GameObject text;
+    public int gain = 5;
+    public float shrink = 2.5f;
 
-    private void plot()
+    private void Plot()
     {
         if (!dataRetrieved)
             return;
@@ -26,16 +26,40 @@ public class MatlabEngine : MonoBehaviour
             xArray[i] = i;
         }
 
-        Transform pointPrefab = GameObject.Find("point").GetComponent<Transform>();
+        Transform MatlabObject = GameObject.Find("Matlab").GetComponent<Transform>();
+        int newpoints = rawArray.Length - MatlabObject.childCount;
+        int j = 0;
         Vector3 position;
-        for (int i = 0; i < xArray.Length; i++)
+        Transform pointPrefab = GameObject.Find("point").GetComponent<Transform>();
+        for (int i = 0; i < MatlabObject.childCount; i++)
+        {
+            Transform point = MatlabObject.GetChild(i);
+            position.x = (float)xArray[j]/shrink - 100;
+            position.y = gain * (float)rawArray[i];
+            position.z = 100;
+            point.localPosition = position;
+            j++;
+        }        
+        for (int i = 0; i < newpoints; i++)
         {
             Transform point = Instantiate(pointPrefab); // a sphere
-            position.x = (float)xArray[i] - 100;
-            position.y = (float)rawArray[i];
+            position.x = (float)xArray[j] / shrink - 100;
+            position.y = gain * (float)rawArray[j];
             position.z = 100;
             point.localPosition = position;
             point.SetParent(transform, false);
+            j++;
+        }
+    }
+
+    private void CleanPlot()
+    {
+        Vector3 position = GameObject.Find("point").transform.position;
+        Transform parentObject = GameObject.Find("Matlab").GetComponent<Transform>();
+        for (int i = 0; i < parentObject.childCount; i++)
+        {
+            Transform transform = parentObject.GetChild(i);
+            transform.position = position;
         }
     }
 
@@ -61,26 +85,27 @@ public class MatlabEngine : MonoBehaviour
             catch (System.Exception e)
             {
                 Debug.Log(e.Message);
-                TerminateMatlab();
+                //TerminateMatlab();
             }
             dataRetrieved = true;
-            plot();
+            Plot();
         }
-        if(Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.C))
         {
-            Application.Quit();
+            CleanPlot();
         }
-    }
-
-    private void TerminateMatlab()
-    {
-        engine.Dispose();
-        MATLABEngine.TerminateEngineClient();
     }
 
     private async Task StartMatlabAsync()
     {
-        engine = await MATLABEngine.StartMATLABAsync();
+        try
+        {
+            engine = await MATLABEngine.StartMATLABAsync();
+        }
+        catch (MathWorks.MATLAB.Exceptions.MATLABNotAvailableException exp)
+        {
+            Debug.Log(exp.Message);
+        }
     }
 
     private async Task<double[]> CalculateFunc()
@@ -95,11 +120,5 @@ public class MatlabEngine : MonoBehaviour
         double[] retVal = await engine.dft321(opts);
         
         return retVal;
-    }
-
-    private void OnApplicationQuit()
-    {
-        
-        TerminateMatlab();
     }
 }

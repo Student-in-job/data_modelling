@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ConsoleWindow
+  m_Name: ProjectBrowser
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -120,14 +120,14 @@ MonoBehaviour:
     y: 562
     width: 1463
     height: 385
-  m_MinSize: {x: 101, y: 121}
-  m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 18}
+  m_MinSize: {x: 231, y: 271}
+  m_MaxSize: {x: 10001, y: 10021}
+  m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 13}
   - {fileID: 18}
-  m_Selected: 1
-  m_LastSelected: 0
+  m_Selected: 0
+  m_LastSelected: 1
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -268,8 +268,8 @@ MonoBehaviour:
     y: 0
     width: 1109
     height: 562
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 202, y: 221}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 16}
@@ -356,23 +356,23 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Matlab/Prefabs
+    - Assets/Matlab/Plugins
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Matlab/Prefabs
+  - Assets/Matlab/Plugins
   m_LastFoldersGridSize: -1
   m_LastProjectPath: D:\repos\data_modelling\Haptic_demo
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 56}
-    m_SelectedIDs: e65a0000
-    m_LastClickedID: 23270
-    m_ExpandedIDs: 00000000ce590000d0590000d2590000
+    scrollPos: {x: 0, y: 124}
+    m_SelectedIDs: da5b0000
+    m_LastClickedID: 23514
+    m_ExpandedIDs: 00000000ce590000d0590000d2590000b65b000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -538,8 +538,8 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 2afbffff
-      m_LastClickedID: -1238
+      m_SelectedIDs: 7c590000
+      m_LastClickedID: 22908
       m_ExpandedIDs: 2cfbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
@@ -893,9 +893,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -8.233036, y: -17.16022, z: 42.306442}
+    m_Target: {x: -21.797968, y: 2.6710742, z: 4.45022}
     speed: 2
-    m_Value: {x: -8.233036, y: -17.16022, z: 42.306442}
+    m_Value: {x: -21.797968, y: 2.6710742, z: 4.45022}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -941,13 +941,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.17513971, y: 0.11667382, z: -0.020906478, w: 0.9773872}
+    m_Target: {x: 0.037780985, y: -0.032660037, z: 0.0012363951, w: 0.9987577}
     speed: 2
-    m_Value: {x: 0.17513888, y: 0.11667326, z: -0.020906378, w: 0.97738254}
+    m_Value: {x: 0.037778854, y: -0.034157924, z: 0.0012930571, w: 0.9987014}
   m_Size:
-    m_Target: 38.281994
+    m_Target: 13.542535
     speed: 2
-    m_Value: 38.281994
+    m_Value: 13.542535
   m_Ortho:
     m_Target: 0
     speed: 2
